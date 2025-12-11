@@ -8,8 +8,8 @@ const router = express.Router();
 // REGISTER USER
 router.post("/register", async (req, res) => {
     try {
-        const { name, place, age, email, education, phone, password } = req.body;
-
+        const { name, place, age, email, education, phone, password,role } = req.body;
+        console.log("REGISTER BODY RECEIVED:", req.body);   
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Email already registered" });
@@ -24,7 +24,8 @@ router.post("/register", async (req, res) => {
             email,
             education,
             phone,
-            password: hashedPassword
+            password: hashedPassword,
+            role: role || "user"
         });
 
         await newUser.save();
@@ -59,12 +60,14 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign(
             { id: user._id, email: user.email, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "7d" }
         );
+        
 
         res.json({
             message: "Login successful",
-            token
+            token:token,
+            role: user.role
         });
 
     } catch (error) {
