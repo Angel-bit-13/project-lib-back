@@ -34,7 +34,8 @@ const bookSchema = new mongoose.Schema({
     likedBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }]
+    }],
+    image: String
 }, { timestamps: true });
 
 module.exports = mongoose.model("Book", bookSchema);
