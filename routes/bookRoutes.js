@@ -49,7 +49,7 @@ router.delete("/:id", auth, admin, async (req, res) => {
 });
 
 // GET all books
-router.get("/", async (req, res) => {
+router.get("/books", async (req, res) => {
     try {
         const books = await Book.find();
         res.json(books);
