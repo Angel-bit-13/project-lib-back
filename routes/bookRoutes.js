@@ -4,6 +4,8 @@ const Book = require("../models/Book");
 const auth = require("../middleware/authMiddleware");
 const admin = require("../middleware/adminMiddleware");
 
+
+
 // CREATE a book (Admin only)
 router.post("/", auth, admin, async (req, res) => {
     try {
@@ -49,14 +51,14 @@ router.delete("/:id", auth, admin, async (req, res) => {
 });
 
 // GET all books
-router.get("/books", async (req, res) => {
-    try {
-        const books = await Book.find();
-        res.json(books);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Server error" });
-    }
+router.get("/", async (req, res) => {
+  try {
+    const books = await Book.find(); // fetch all books from MongoDB
+    res.json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
 });
 
 // GET single book by id
